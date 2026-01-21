@@ -2,6 +2,42 @@
 ;  lxbtlr
 
 
+(setq package-enable-at-startup nil)
+
+
+;; package-management
+;; Bootstrap straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; Install use-package
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default 'true)
+
+(setq use-package-always-ensure 't
+      use-package-always-defer 't) ; globally (default )set ensure and defer for all packages
+
+;; allows upgrading builtin packages
+(when (and (>= emacs-major-version 29)
+           (>= emacs-major-version 1))
+  (setq-default package-install-upgrade-built-in 't))
+
+
+(add-to-list 'load-path (expand-file-name "." user-emacs-directory))
+
 ( setq inhibit-startup-message t 
        visible-bell t)
 
@@ -15,7 +51,6 @@
 
 (load-theme 'modus-vivendi
 	    nil)
-
 
 ;; ###############
 
@@ -37,4 +72,21 @@
 
 (setq gloval-auto-revert-non-file-buffers t)
 
+(require 'sample)
+(use-package evil
+  :ensure t
+  :straight t
+  :demand t
+  :config (evil-mode 1))
 
+(use-package evil-collection
+  :ensure t
+  :straight t
+  :demand t
+  :config (evil-collections-init))
+
+
+(use-package magit
+  :ensure t
+  :straight t
+  :defer t) 
