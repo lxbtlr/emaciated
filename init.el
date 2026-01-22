@@ -36,7 +36,7 @@
   (setq-default package-install-upgrade-built-in 't))
 
 
-(add-to-list 'load-path (expand-file-name "." user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "./configs/" user-emacs-directory))
 
 ( setq inhibit-startup-message t 
        visible-bell t)
@@ -72,21 +72,37 @@
 
 (setq gloval-auto-revert-non-file-buffers t)
 
-(require 'sample)
 (use-package evil
   :ensure t
   :straight t
   :demand t
-  :config (evil-mode 1))
+  :init
+ (setq evil-want-keybinding nil) ;; recommended integration
+ :config (evil-mode 1))
 
-(use-package evil-collection
+;; make all the other modes respect my nvim author-it-tie
+(use-package evil-collection 
   :ensure t
   :straight t
   :demand t
-  :config (evil-collections-init))
+  :after evil
+  :config (evil-collection-init))
 
-
+;; better git
 (use-package magit
   :ensure t
   :straight t
   :defer t) 
+
+;; testing -- dashboard
+;; this does make loading much slower
+
+(use-package dashboard
+  :ensure t
+  :straight t
+  :demand t
+  :config
+  (dashboard-setup-startup-hook)
+  )
+
+ (setq dashboard-startup-banner 'logo)

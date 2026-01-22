@@ -1,12 +1,7 @@
 # Git clone this as .emacs.d in home and you're set
 ## TODO: 
-- [ ]  install evil mode
-- [ ]  install evil collection
 - [ ]  modify display-buffer-alist to move racket-mode to RHS on launch
-- [ ]  look at use-package
-- [ ]  look at straight.el
 - [ ] look at pulsar
-- [ ] look at magit
 
 
 # resources
