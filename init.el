@@ -103,6 +103,17 @@
   :demand t
   :config
   (dashboard-setup-startup-hook)
-  )
+  (setq dashboard-startup-banner "dash/hydra.txt"))
 
- (setq dashboard-startup-banner 'logo)
+(use-package pulsar
+  :ensure t
+  :bind
+  ( :map global-map
+    ("C-x l" . pulsar-pulse-line) ; overrides `count-lines-page'
+    ("C-x L" . pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily-dwim'
+  :init
+  (pulsar-global-mode 1)
+  :custom
+  (pulsar-generic 'pulsar-red)
+  (pulsar-face 'pulsar-magenta)
+  (pulsar-delay 0.05))
