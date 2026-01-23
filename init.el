@@ -250,6 +250,11 @@
   (add-to-list 'completion-at-point-functions #'cape-elisp-symbol))
 
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+(use-package racket-mode
+  :ensure t
+  :straight t)
+
+
 (use-package doom-themes
   :ensure t
   :config
