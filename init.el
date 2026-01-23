@@ -25,15 +25,27 @@
 
 ;; Install use-package
 (straight-use-package 'use-package)
-(setq straight-use-package-by-default 'true)
+(setq straight-use-package-by-default t)
 
-(setq use-package-always-ensure 't
-      use-package-always-defer 't) ; globally (default )set ensure and defer for all packages
+(setq use-package-always-ensure t
+      use-package-always-defer t) ; globally (default )set ensure and defer for all packages
 
 ;; allows upgrading builtin packages
 (when (and (>= emacs-major-version 29)
            (>= emacs-major-version 1))
   (setq-default package-install-upgrade-built-in 't))
+
+(use-package no-littering :ensure t)
+
+;; Setup the package repos
+; (require 'package)
+;  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;  (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
+;  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+; 
+; 
+; (package-initialize)
+
 
 
 (add-to-list 'load-path (expand-file-name "./configs/" user-emacs-directory))
