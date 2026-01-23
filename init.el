@@ -250,3 +250,11 @@
   (add-to-list 'completion-at-point-functions #'cape-elisp-symbol))
 
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+	doom-theme 'doom-oxocarbon
+        doom-themes-enable-italic t))
+
+(load-theme 'doom-oxocarbon t)
