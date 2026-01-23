@@ -250,6 +250,14 @@
   (add-to-list 'completion-at-point-functions #'cape-elisp-symbol))
 
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+
+;; + / - git indicators
+(use-package git-gutter
+  :ensure t
+  :init
+  (global-git-gutter-mode +1))
+
+
 (use-package racket-mode
   :ensure t
   :straight t)
