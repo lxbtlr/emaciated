@@ -59,10 +59,8 @@
 
 (icomplete-mode 1)
 
-(setq modus-themes-completions '((t . (extrabold))))
+; (setq modus-themes-completions '((t . (extrabold))))
 
-(load-theme 'modus-vivendi
-	    nil)
 
 ;; ###############
 
@@ -112,7 +110,7 @@
 (use-package dashboard
   :ensure t
   :straight t
-  :demand t
+  :demand nil
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner "dash/hydra.txt"))
@@ -127,8 +125,16 @@
   (pulsar-global-mode 1)
   :custom
   (pulsar-generic 'pulsar-red)
-  (pulsar-face 'pulsar-magenta)
-  (pulsar-delay 0.05))
+  (pulsar-face 'pulsar-cyan)
+  (pulsar-delay 0.05)
+  (add-to-list 'pulsar-pulse-functions #'split-window-right-and-switch)
+  (add-to-list 'pulsar-pulse-functions #'split-window-below-and-switch)
+  (add-to-list 'pulsar-pulse-functions #'tmux-pane-omni-window-up)
+  (add-to-list 'pulsar-pulse-functions #'tmux-pane-omni-window-left)
+  (add-to-list 'pulsar-pulse-functions #'tmux-pane-omni-window-down)
+  (add-to-list 'pulsar-pulse-functions #'tmux-pane-omni-window-right)  )
+
+
 ;; make searching menus in emacs work prettier / better / stronger
 
 (use-package vertico
