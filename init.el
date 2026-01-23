@@ -271,3 +271,20 @@
         doom-themes-enable-italic t))
 
 (load-theme 'doom-oxocarbon t)
+
+
+(use-package project
+  :config
+  (setq project-vc-merge-submodules nil))
+
+(use-package which-key
+  :straight t
+  :ensure t
+  :demand t
+  :config
+  (setq which-key-show-early-on-C-h t)
+  (setq ))
+
+(use-package flymake
+  :ensure t
+  :straight t)
