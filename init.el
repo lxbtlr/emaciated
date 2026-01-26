@@ -89,6 +89,17 @@
   :init
  (setq evil-want-keybinding nil) ;; recommended integration
  :config (evil-mode 1))
+;; dart to window homerow keys instead of directions
+(use-package ace-window
+  :ensure t
+  :demand t
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+	aw-dispatch-always t)
+
+  (global-set-key (kbd "C-w") 'ace-window)
+  (global-set-key (kbd "C-w") 'aw-show-dispatch-help) 
+ )
 
 ;; make all the other modes respect my nvim author-it-tie
 (use-package evil-collection 
@@ -263,7 +274,7 @@
   :init
   (global-git-gutter-mode +1))
 
-
+;; the "apple a day" in question, to keep dr.racket away
 (use-package racket-mode
   :ensure t
   :straight t)
@@ -294,3 +305,85 @@
 (use-package flymake
   :ensure t
   :straight t)
+;; testing, needs better configuration TLC
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-persp-name t))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package hl-todo
+  :ensure t
+  :demand t
+  :bind (("C-c C-t p" . #'hl-todo-previous)
+         ("C-c C-t n" . #'hl-todo-next))
+  :config (global-hl-todo-mode)
+  (setq hl-todo-keyword-faces
+	'(("TODO"   . "#42be65")
+	  ("FIXME"  . "#FF0000")
+	  ("BROKEN"  . "#FFFF00")
+	  ("TESTING"  . "#FFFF00")
+	  ("DEBUG"  . "#f5e0dc")
+	  ("NOTE"   . "#FAF9F6")
+	  ("GOTCHA" . "#FF4500")
+	  ("STUB"   . "#1E90FF"))
+	))
+
+;; testing
+(use-package magit-todos
+  :ensure t
+  :demand t ; Use :demand, because we still autoload magit
+  :after magit tl-todo
+  :custom
+  (magit-todos-keywords-list
+   (mapcar (pcase-lambda (`(,keyword . ,rgb-face))
+             keyword)
+           hl-todo-keyword-faces))
+  (magit-todos-auto-group-items 50)
+ (magit-todos-exclude-globs '("straight/" ".git/"))
+  :config
+  (magit-todos-mode))
+
+(use-package hydra
+  :ensure t
+  :ensure ace-window
+  :defer t
+  :config 
+					; hydra-frame-window is designed from ace-window (C-x f) and
+					; matches aw-dispatch-alist with a few extra
+  (defhydra hydra-frame-window (:color red :hint nil)
+    "
+    ^Splits^           ^Window^                  Window Size^^^^^^    ^Text^   try C-w ?             (__)
+     _v_ert-split         ^ ^                       ^ ^ _k_ ^ ^        _K_     for ace cmds!         (oo) 
+     _h_orz-split         _e_: ace-swap-win         _h_ ^+^ _l_        ^+^                     /------\\/
+      ^ ^                 ^o^: ace-delete-other-w   ^ ^ _j_ ^ ^        _J_                    / |     ||
+      ^ ^                 _d_: ace-delete-window    _b_alance^^^^      ^ ^                   *  /\\---/\\  ~~  C-x f ;
+"
+    ;("0" delete-frame :exit t)
+    ;("1" delete-other-frames :exit t)
+    ;("2" make-frame  :exit t)
+    ("b" balance-windows)
+					;("d" kill-and-delete-frame :exit t)
+    ("e" ace-swap-window)
+    ;("F" toggle-frame-fullscreen)   ;; is <f11>
+    ;("g" resize-frame-right :exit t)
+    ;("H" resize-frame-left :exit t)  ;; aw-dispatch-alist uses h, I rebind here so hjkl can be used for size
+    ;("n" new-frame-right :exit t)
+    ;; ("r" reverse-windows)
+    ("H" aw-split-window-horz );:exit t);; split vert
+    ("v" aw-split-window-vert );:exit t);; split horz
+    ;("t" toggle-window-spilt)
+    ("d" ace-delete-window :exit t)
+    ;("x" delete-frame :exit t)
+    ("K" text-scale-decrease)
+    ("J" text-scale-increase)
+    ("h" shrink-window-horizontally)
+    ("k" shrink-window)
+    ("j" enlarge-window)
+    ("l" enlarge-window-horizontally))
+  (global-set-key (kbd "C-x f") 'hydra-frame-window/body)
+  (with-eval-after-load 'ace-window
+    (add-to-list 'aw-dispatch-alist '(?w hydra-frame-window/body) t)))
