@@ -59,6 +59,14 @@
 
 (icomplete-mode 1)
 
+
+;; Mouse wheel go brrr
+(setq mouse-wheel-scroll-amount '(1)) ; ((shift) . 1) ((control) . nil)))
+(setq mouse-wheel-progressive-speed nil)
+(setq scroll-step            1
+      scroll-conservatively  10000)
+
+
 ; (setq modus-themes-completions '((t . (extrabold))))
 
 
@@ -113,7 +121,7 @@
 (use-package magit
   :ensure t
   :straight t
-  :defer t) 
+  :demand t) 
 
 ;; testing -- dashboard
 ;; this does make loading much slower
@@ -299,12 +307,21 @@
   :ensure t
   :demand t
   :config
-  (setq which-key-show-early-on-C-h t)
-  (setq ))
+  (setq which-key-show-early-on-C-h nil))
 
 (use-package flymake
   :ensure t
   :straight t)
+
+;; nice
+(use-package markdown-mode
+  :ensure t
+  :straight t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+	      ("C-c C-e" . markdown-do)))
+
 ;; testing, needs better configuration TLC
 (use-package doom-modeline
   :ensure t
