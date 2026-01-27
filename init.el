@@ -319,18 +319,36 @@
   :ensure t
   :demand t
   :bind (("C-c C-t p" . #'hl-todo-previous)
-         ("C-c C-t n" . #'hl-todo-next))
+	 ("C-c C-t n" . #'hl-todo-next))
   :config (global-hl-todo-mode)
-  (setq hl-todo-keyword-faces
-	'(("TODO"   . "#42be65")
-	  ("FIXME"  . "#FF0000")
-	  ("BROKEN"  . "#FFFF00")
-	  ("TESTING"  . "#FFFF00")
-	  ("DEBUG"  . "#f5e0dc")
-	  ("NOTE"   . "#FAF9F6")
-	  ("GOTCHA" . "#FF4500")
-	  ("STUB"   . "#1E90FF"))
-	))
+
+  (defvar blue "#1E90FF")
+  (defvar red "#FF0000")
+  (defvar green "#42BE65")
+  (defvar white "#FAF9F6")
+  (defvar yellow "#FFFF00")
+  (defvar black "#000000")
+    (defface white-on-green
+      `((t :background ,green :foreground ,white :inherit (hl-todo)))
+      "white background Face for highlighting the  .")
+
+    (defface white-on-blue
+      `((t :background ,blue :foreground ,white :inherit (hl-todo)))
+      "Face for highlighting the TODO keyword.")
+
+    (defface black-on-yellow
+      `((t :background ,yellow :foreground ,black :inherit (hl-todo)))
+      "Face for highlighting the TODO keyword.")
+
+    (setq hl-todo-keyword-faces
+	  '(("TODO"   . white-on-green)
+	    ("FIXME"  . "#FF0000")
+	    ("BROKEN"  . black-on-yellow)
+	    ("TESTING"  . "#FFFF00")
+	    ("DEBUG"  . "#f500dc")
+	    ("NOTE"   . "#FAF9F6")
+	    ("GOTCHA" . "#FF4500")
+	    ("STUB"   . white-on-blue))))
 
 ;; testing
 (use-package magit-todos
