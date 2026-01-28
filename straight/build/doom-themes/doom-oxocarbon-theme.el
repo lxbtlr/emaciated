@@ -1,0 +1,1 @@
+/home/lxbtlr/emaciated/straight/repos/themes/themes/doom-oxocarbon-theme.el
