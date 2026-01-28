@@ -158,6 +158,13 @@
   (add-to-list 'pulsar-pulse-functions #'tmux-pane-omni-window-down)
   (add-to-list 'pulsar-pulse-functions #'tmux-pane-omni-window-right)  )
 
+; Setup xclip for wayland
+ (use-package xclip
+   :config
+   (setq xclip-program "wl-copy")
+   (setq xclip-select-enable-clipboard t)
+   (setq xclip-mode t)
+   (setq xclip-method (quote wl-copy)))
 
 ;; make searching menus in emacs work prettier / better / stronger
 
