@@ -48,7 +48,7 @@
 
 
 
-(add-to-list 'load-path (expand-file-name "./configs/" user-emacs-directory))
+;(add-to-list 'load-path (expand-file-name "./configs/" user-emacs-directory))
 
 ( setq inhibit-startup-message t 
        visible-bell t)
@@ -125,6 +125,9 @@
 
 ;; testing -- dashboard
 ;; this does make loading much slower
+(defvar dashboard-file 
+    (expand-file-name "dash/hydra.txt" user-emacs-directory)
+    "Constructs the path to dashboard txt relative to the emacs config folder.")
 
 (use-package dashboard
   :ensure t
@@ -132,7 +135,9 @@
   :demand nil
   :config
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner "dash/hydra.txt"))
+
+;; Example of how to use it in your dashboard setup:
+  (setq dashboard-startup-banner dashboard-file))
 
 (use-package pulsar
   :ensure t
